@@ -51,8 +51,8 @@ public class main {
 
     public static void unzip(String zFileName){
         String zippedFile = zFileName;
-        InputStream input = main.class.getResourceAsStream("ListStopWords.txt");;
-
+        InputStream input = main.class.getResourceAsStream("src/tempimage/");;
+        System.out.println(input);
         // create output directory if it doesn't exist
 
         FileInputStream fis;
@@ -63,7 +63,7 @@ public class main {
             ZipEntry ze = zis.getNextEntry();
             while(ze != null){
                 String fileName = ze.getName();
-                File newFile = new File("/tempimage" + File.separator + fileName);
+                File newFile = new File("tempimages" + File.separator + fileName);
                 System.out.println("Unzipping to "+newFile.getAbsolutePath());
                 //create directories for sub directories in zip
                 new File(newFile.getParent()).mkdirs();
