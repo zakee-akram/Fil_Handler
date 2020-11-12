@@ -12,6 +12,7 @@ public class main {
                     multiRename();
                 default:
                     System.out.println("Enter Valid Number");
+                    System.out.println("THis is devloping");
             }
         } catch (Exception e) {
             System.out.println(e);
