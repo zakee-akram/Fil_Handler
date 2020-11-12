@@ -57,13 +57,20 @@ public class main {
 
         FileInputStream fis;
         byte[] buffer = new byte[1024];
+        int counter =0 ;
+        String userName ="";
+        System.out.println("Enter file Name:");
+        Scanner userIn = new Scanner(System.in);
+        userName = userIn.nextLine();
         try {
             fis = new FileInputStream(zippedFile);
             ZipInputStream zis = new ZipInputStream(fis);
             ZipEntry ze = zis.getNextEntry();
             while(ze != null){
-                String fileName = ze.getName();
-                File newFile = new File("tempimages" + File.separator + fileName);
+                counter =counter+1;
+                String fileName = userName + "_" + counter+".jpg";
+            //    String fileName = ze.getName();
+                File newFile = new File("tempimages/"+userName + File.separator + fileName);
                 System.out.println("Unzipping to "+newFile.getAbsolutePath());
                 //create directories for sub directories in zip
                 new File(newFile.getParent()).mkdirs();
