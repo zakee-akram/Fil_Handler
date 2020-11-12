@@ -82,6 +82,7 @@ public class main {
                 fos.close();
                 //close this ZipEntry
                 zis.closeEntry();
+
                 ze = zis.getNextEntry();
             }
             //close last ZipEntry
