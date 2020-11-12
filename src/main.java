@@ -1,13 +1,9 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.*;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 public class main {
     public static void main(String[] args) {
         System.out.println("Select option you would like to do:");
@@ -46,7 +42,7 @@ public class main {
         String filename =chooser.getSelectedFile().getName().substring(chooser.getSelectedFile().getName().lastIndexOf("."));
         if(filename.equals(".zip")){
             System.out.println("Zip File Selected");
-            unzip(filename);
+            unzip(chooser.getSelectedFile().getPath());
         }
         else{
             System.out.println("jpg selected");
@@ -55,7 +51,39 @@ public class main {
 
     public static void unzip(String zFileName){
         String zippedFile = zFileName;
+        InputStream input = main.class.getResourceAsStream("ListStopWords.txt");;
 
+        // create output directory if it doesn't exist
+
+        FileInputStream fis;
+        byte[] buffer = new byte[1024];
+        try {
+            fis = new FileInputStream(zippedFile);
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry ze = zis.getNextEntry();
+            while(ze != null){
+                String fileName = ze.getName();
+                File newFile = new File("/tempimage" + File.separator + fileName);
+                System.out.println("Unzipping to "+newFile.getAbsolutePath());
+                //create directories for sub directories in zip
+                new File(newFile.getParent()).mkdirs();
+                FileOutputStream fos = new FileOutputStream(newFile);
+                int len;
+                while ((len = zis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, len);
+                }
+                fos.close();
+                //close this ZipEntry
+                zis.closeEntry();
+                ze = zis.getNextEntry();
+            }
+            //close last ZipEntry
+            zis.closeEntry();
+            zis.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-}
+    }
